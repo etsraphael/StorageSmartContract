@@ -32,7 +32,37 @@ export class OwnershipTransferred__Params {
   }
 }
 
-export class CertifiedContract__getProfileResult {
+export class ProfileAdded extends ethereum.Event {
+  get params(): ProfileAdded__Params {
+    return new ProfileAdded__Params(this);
+  }
+}
+
+export class ProfileAdded__Params {
+  _event: ProfileAdded;
+
+  constructor(event: ProfileAdded) {
+    this._event = event;
+  }
+
+  get userAddress(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get username(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get description(): string {
+    return this._event.parameters[2].value.toString();
+  }
+
+  get expirationDate(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+}
+
+export class CertifiedAccount__getProfileResult {
   value0: Address;
   value1: string;
   value2: string;
@@ -71,7 +101,7 @@ export class CertifiedContract__getProfileResult {
   }
 }
 
-export class CertifiedContract__profilesResult {
+export class CertifiedAccount__profilesResult {
   value0: Address;
   value1: string;
   value2: string;
@@ -110,19 +140,19 @@ export class CertifiedContract__profilesResult {
   }
 }
 
-export class CertifiedContract extends ethereum.SmartContract {
-  static bind(address: Address): CertifiedContract {
-    return new CertifiedContract("CertifiedContract", address);
+export class CertifiedAccount extends ethereum.SmartContract {
+  static bind(address: Address): CertifiedAccount {
+    return new CertifiedAccount("CertifiedAccount", address);
   }
 
-  getProfile(_address: Address): CertifiedContract__getProfileResult {
+  getProfile(_address: Address): CertifiedAccount__getProfileResult {
     let result = super.call(
       "getProfile",
       "getProfile(address):(address,string,string,uint256)",
       [ethereum.Value.fromAddress(_address)]
     );
 
-    return new CertifiedContract__getProfileResult(
+    return new CertifiedAccount__getProfileResult(
       result[0].toAddress(),
       result[1].toString(),
       result[2].toString(),
@@ -132,7 +162,7 @@ export class CertifiedContract extends ethereum.SmartContract {
 
   try_getProfile(
     _address: Address
-  ): ethereum.CallResult<CertifiedContract__getProfileResult> {
+  ): ethereum.CallResult<CertifiedAccount__getProfileResult> {
     let result = super.tryCall(
       "getProfile",
       "getProfile(address):(address,string,string,uint256)",
@@ -143,7 +173,7 @@ export class CertifiedContract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new CertifiedContract__getProfileResult(
+      new CertifiedAccount__getProfileResult(
         value[0].toAddress(),
         value[1].toString(),
         value[2].toString(),
@@ -167,14 +197,14 @@ export class CertifiedContract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  profiles(param0: Address): CertifiedContract__profilesResult {
+  profiles(param0: Address): CertifiedAccount__profilesResult {
     let result = super.call(
       "profiles",
       "profiles(address):(address,string,string,uint256)",
       [ethereum.Value.fromAddress(param0)]
     );
 
-    return new CertifiedContract__profilesResult(
+    return new CertifiedAccount__profilesResult(
       result[0].toAddress(),
       result[1].toString(),
       result[2].toString(),
@@ -184,7 +214,7 @@ export class CertifiedContract extends ethereum.SmartContract {
 
   try_profiles(
     param0: Address
-  ): ethereum.CallResult<CertifiedContract__profilesResult> {
+  ): ethereum.CallResult<CertifiedAccount__profilesResult> {
     let result = super.tryCall(
       "profiles",
       "profiles(address):(address,string,string,uint256)",
@@ -195,7 +225,7 @@ export class CertifiedContract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new CertifiedContract__profilesResult(
+      new CertifiedAccount__profilesResult(
         value[0].toAddress(),
         value[1].toString(),
         value[2].toString(),

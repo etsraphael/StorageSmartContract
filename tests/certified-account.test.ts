@@ -6,11 +6,11 @@ import {
   beforeAll,
   afterAll
 } from "matchstick-as/assembly/index"
-import { Address } from "@graphprotocol/graph-ts"
+import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { OwnershipTransferred } from "../generated/schema"
-import { OwnershipTransferred as OwnershipTransferredEvent } from "../generated/CertifiedContract/CertifiedContract"
-import { handleOwnershipTransferred } from "../src/certified-contract"
-import { createOwnershipTransferredEvent } from "./certified-contract-utils"
+import { OwnershipTransferred as OwnershipTransferredEvent } from "../generated/CertifiedAccount/CertifiedAccount"
+import { handleOwnershipTransferred } from "../src/certified-account"
+import { createOwnershipTransferredEvent } from "./certified-account-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0
